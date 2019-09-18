@@ -105,6 +105,19 @@ public class Matrix{
         }
     }
     public void gaussJordanElim(){
+        this.gaussElim();
+        for (int i = getLastIdxBrs(); i>0; i--){
+            if (isZero(i)){
+                for (int j = i-1; j>=0; j--){
+                    if (!isZero(j)){
+                        double x = (this.tab[j][getKolLead(j)])*(-1);
+                        for(int k=1; k<=getLastIdxKol(); k++){
+                            this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
+                        }
+                    }
+                }
+            }
+        }
         
     }
 }
