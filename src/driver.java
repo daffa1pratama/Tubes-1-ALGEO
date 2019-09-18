@@ -12,6 +12,8 @@ public class driver {
         tab.tulisMatrix();
         tab.gaussElim();
         tab.tulisMatrix();
-        System.out.println(tab.determinanG());
+        tab.gaussJordanElim();
+        tab.tulisMatrix();
+//        System.out.println(tab.determinanG());
     }
 }

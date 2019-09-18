@@ -104,7 +104,6 @@ public class Matrix{
             }
         }
     }
-<<<<<<< HEAD
     public double determinanG(){
         double det=1;
         for(int i=1; i<getLastIdxBrs(); i++){
@@ -113,7 +112,15 @@ public class Matrix{
                     if(!isZero(j)){
                         double x = (this.tab[j][getKolLead(j)]/this.tab[i][getKolLead(i)])*(-1);
                         det = det/x;
-=======
+                    }
+                }
+            }
+        }
+        for(int i=1; i<=getLastIdxBrs(); i++){
+            det = det*getElmt(i, i, tab);
+        }
+        return det;
+    }       
     public void gaussJordanElim(){
         this.gaussElim();
         for (int i = getLastIdxBrs(); i>0; i--){
@@ -121,7 +128,6 @@ public class Matrix{
                 for (int j = i-1; j>=0; j--){
                     if (!isZero(j)){
                         double x = (this.tab[j][getKolLead(j)])*(-1);
->>>>>>> 686fcd04313f116f34d4411ef35d036dfbed8b44
                         for(int k=1; k<=getLastIdxKol(); k++){
                             this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
                         }
@@ -129,13 +135,5 @@ public class Matrix{
                 }
             }
         }
-<<<<<<< HEAD
-        for(int i=1; i<=getLastIdxBrs(); i++){
-            det = det*getElmt(i, i, tab);
-        }
-        return det;
-=======
-        
->>>>>>> 686fcd04313f116f34d4411ef35d036dfbed8b44
     }
 }
