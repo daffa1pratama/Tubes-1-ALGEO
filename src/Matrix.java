@@ -104,7 +104,24 @@ public class Matrix{
             }
         }
     }
-    public void gaussJordanElim(){
-        
+    public double determinanG(){
+        double det=1;
+        for(int i=1; i<getLastIdxBrs(); i++){
+            if(!isZero(i)){
+                for(int j=i+1; j<=getLastIdxBrs(); j++){
+                    if(!isZero(j)){
+                        double x = (this.tab[j][getKolLead(j)]/this.tab[i][getKolLead(i)])*(-1);
+                        det = det/x;
+                        for(int k=1; k<=getLastIdxKol(); k++){
+                            this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
+                        }
+                    }
+                }
+            }
+        }
+        for(int i=1; i<=getLastIdxBrs(); i++){
+            det = det*getElmt(i, i, tab);
+        }
+        return det;
     }
 }
