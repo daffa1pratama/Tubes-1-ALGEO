@@ -10,8 +10,10 @@ public class driver {
         Matrix tab = new Matrix();
         tab.bacaMatrix();
         tab.tulisMatrix();
+        System.out.println();
         tab.gaussElim();
         tab.tulisMatrix();
+        System.out.println();
         tab.gaussJordanElim();
         tab.tulisMatrix();
 //        System.out.println(tab.determinanG());

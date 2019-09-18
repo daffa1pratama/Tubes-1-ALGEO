@@ -82,12 +82,33 @@ public class Matrix{
         }
         return found;
     }
+    public void interchange(int brs1, int brs2){
+        for(int i=1; i<=getLastIdxKol(); i++){
+            double temp=this.tab[brs1][i];
+            this.tab[brs1][i]=this.tab[brs2][i];
+            this.tab[brs2][i]=temp;
+        }
+    }
+    public void urutMatrix(){
+        if (this.tBrs>1){
+            for(int i=1; i<getLastIdxBrs(); i++){
+                int brsMax=i;
+                for(int j=i+1; j<=getLastIdxBrs(); j++){
+                    if(getKolLead(j)<getKolLead(brsMax)){
+                        brsMax=j;
+                    }
+                }
+                interchange(i,brsMax);
+            }
+        }
+    }
     public void gaussElim(){
+        urutMatrix();
         for(int i=1; i<getLastIdxBrs(); i++){
             if(!isZero(i)){
                 for(int j=i+1; j<=getLastIdxBrs(); j++){
                     if(!isZero(j)){
-                        double x = (this.tab[j][getKolLead(j)]/this.tab[i][getKolLead(i)])*(-1);
+                        double x = (this.tab[j][getKolLead(i)]/this.tab[i][getKolLead(i)])*(-1);
                         for(int k=1; k<=getLastIdxKol(); k++){
                             this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
                         }
@@ -110,24 +131,21 @@ public class Matrix{
             if(!isZero(i)){
                 for(int j=i+1; j<=getLastIdxBrs(); j++){
                     if(!isZero(j)){
-                        double x = (this.tab[j][getKolLead(j)]/this.tab[i][getKolLead(i)])*(-1);
-                        det = det/x;
+                        double x = (this.tab[j][getKolLead(i)]/this.tab[i][getKolLead(i)])*(-1);
+                        det = det*(1/x);
                     }
                 }
             }
-        }
-        for(int i=1; i<=getLastIdxBrs(); i++){
-            det = det*getElmt(i, i, tab);
         }
         return det;
     }       
     public void gaussJordanElim(){
         this.gaussElim();
         for (int i = getLastIdxBrs(); i>1; i--){
-            if (isZero(i)){
+            if (!isZero(i)){
                 for (int j = i-1; j>=1; j--){
                     if (!isZero(j)){
-                        double x = (this.tab[j][getKolLead(j)])*(-1);
+                        double x = this.tab[j][getKolLead(i)]*(-1);                        
                         for(int k=1; k<=getLastIdxKol(); k++){
                             this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
                         }
