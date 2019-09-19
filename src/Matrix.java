@@ -12,6 +12,21 @@ public class Matrix{
         this.tBrs=brs;
         this.tKol=kol;
     }
+    public void makeMatrixIdentitas(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Jumlah baris: ");
+        this.tBrs = scan.nextInt();
+        System.out.println("Jumlah kolom: ");
+        this.tKol = scan.nextInt();
+        makeMatrix(this.tBrs, this.tKol);
+        for(int i=0; i<=this.tBrs; i++){
+            for(int j=0; j<=this.tKol; j++){
+                this.tab[i][j] = 0;
+                this.tab[i][i] = 1;
+            }
+        }
+    }
+
     public int getLastIdxBrs(){
         return this.tBrs;
     }
@@ -82,6 +97,7 @@ public class Matrix{
         }
         return found;
     }
+<<<<<<< HEAD
     public void interchange(int brs1, int brs2){
         for(int i=1; i<=getLastIdxKol(); i++){
             float temp=this.tab[brs1][i];
@@ -102,13 +118,18 @@ public class Matrix{
             }
         }
     }
+=======
+>>>>>>> 517352e4f571b52a5c29cb2fcaee31c440650cb6
     public void gaussElim(){
-        urutMatrix();
         for(int i=1; i<getLastIdxBrs(); i++){
             if(!isZero(i)){
                 for(int j=i+1; j<=getLastIdxBrs(); j++){
                     if(!isZero(j)){
+<<<<<<< HEAD
                         float x = (this.tab[j][getKolLead(i)]/this.tab[i][getKolLead(i)])*(-1);
+=======
+                        double x = (this.tab[j][getKolLead(j)]/this.tab[i][getKolLead(i)])*(-1);
+>>>>>>> 517352e4f571b52a5c29cb2fcaee31c440650cb6
                         for(int k=1; k<=getLastIdxKol(); k++){
                             this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
                         }
@@ -124,14 +145,18 @@ public class Matrix{
                 }
             }
         }
-    }     
+    }
     public void gaussJordanElim(){
         this.gaussElim();
-        for (int i = getLastIdxBrs(); i>1; i--){
-            if (!isZero(i)){
-                for (int j = i-1; j>=1; j--){
+        for (int i = getLastIdxBrs(); i>0; i--){
+            if (isZero(i)){
+                for (int j = i-1; j>=0; j--){
                     if (!isZero(j)){
+<<<<<<< HEAD
                         float x = this.tab[j][getKolLead(i)]*(-1);                        
+=======
+                        double x = (this.tab[j][getKolLead(j)])*(-1);
+>>>>>>> 517352e4f571b52a5c29cb2fcaee31c440650cb6
                         for(int k=1; k<=getLastIdxKol(); k++){
                             this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
                         }
@@ -139,6 +164,7 @@ public class Matrix{
                 }
             }
         }
+<<<<<<< HEAD
     }
     public float determinan(float[][]matrix){
         float [][]temp;
@@ -173,6 +199,9 @@ public class Matrix{
             }
             return det;
         }
+=======
+        
+>>>>>>> 517352e4f571b52a5c29cb2fcaee31c440650cb6
     }
     public void getSolMatrix(){
         for(int i=1; i<=getLastIdxBrs(); i++){
