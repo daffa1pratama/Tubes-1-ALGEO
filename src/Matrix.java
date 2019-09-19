@@ -12,6 +12,21 @@ public class Matrix{
         this.tBrs=brs;
         this.tKol=kol;
     }
+    public void makeMatrixIdentitas(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Jumlah baris: ");
+        this.tBrs = scan.nextInt();
+        System.out.println("Jumlah kolom: ");
+        this.tKol = scan.nextInt();
+        makeMatrix(this.tBrs, this.tKol);
+        for(int i=0; i<=this.tBrs; i++){
+            for(int j=0; j<=this.tKol; j++){
+                this.tab[i][j] = 0;
+                this.tab[i][i] = 1;
+            }
+        }
+    }
+
     public int getLastIdxBrs(){
         return this.tBrs;
     }
@@ -82,33 +97,12 @@ public class Matrix{
         }
         return found;
     }
-    public void interchange(int brs1, int brs2){
-        for(int i=1; i<=getLastIdxKol(); i++){
-            double temp=this.tab[brs1][i];
-            this.tab[brs1][i]=this.tab[brs2][i];
-            this.tab[brs2][i]=temp;
-        }
-    }
-    public void urutMatrix(){
-        if (this.tBrs>1){
-            for(int i=1; i<getLastIdxBrs(); i++){
-                int brsMax=i;
-                for(int j=i+1; j<=getLastIdxBrs(); j++){
-                    if(getKolLead(j)<getKolLead(brsMax)){
-                        brsMax=j;
-                    }
-                }
-                interchange(i,brsMax);
-            }
-        }
-    }
     public void gaussElim(){
-        urutMatrix();
         for(int i=1; i<getLastIdxBrs(); i++){
             if(!isZero(i)){
                 for(int j=i+1; j<=getLastIdxBrs(); j++){
                     if(!isZero(j)){
-                        double x = (this.tab[j][getKolLead(i)]/this.tab[i][getKolLead(i)])*(-1);
+                        double x = (this.tab[j][getKolLead(j)]/this.tab[i][getKolLead(i)])*(-1);
                         for(int k=1; k<=getLastIdxKol(); k++){
                             this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
                         }
@@ -124,14 +118,14 @@ public class Matrix{
                 }
             }
         }
-    }     
+    }
     public void gaussJordanElim(){
         this.gaussElim();
-        for (int i = getLastIdxBrs(); i>1; i--){
-            if (!isZero(i)){
-                for (int j = i-1; j>=1; j--){
+        for (int i = getLastIdxBrs(); i>0; i--){
+            if (isZero(i)){
+                for (int j = i-1; j>=0; j--){
                     if (!isZero(j)){
-                        double x = this.tab[j][getKolLead(i)]*(-1);                        
+                        double x = (this.tab[j][getKolLead(j)])*(-1);
                         for(int k=1; k<=getLastIdxKol(); k++){
                             this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
                         }
@@ -139,34 +133,6 @@ public class Matrix{
                 }
             }
         }
-    }
-    public double determinan(double[][]matrix){
-        double [][]temp;
-        double det=0;
-        if(getLastIdxBrs()==1){
-            det=getElmt(1, 1, tab);
-            return det;
-        }
-        else if(getLastIdxBrs()==2){
-            det=((tab[1][1]*tab[2][2])-(tab[1][2]*tab[2][1]));
-            return det;
-        }
-        else{
-            for(int i=1; i<=getLastIdxBrs(); i++){
-                temp=new double[this.tBrs-1][this.tKol-1];
-                for(int j=2; j<=getLastIdxBrs(); j++){
-                    for(int k=1; k<=getLastIdxKol(); k++){
-                        if(k<i){
-                            temp[j-1][k]=tab[j][k];
-                        }
-                        else if(k>i){
-                            temp[j-1][k-1]=tab[j][k];
-                        }
-                    }
-                }
-                det = det+tab[1][i]*Math.pow(-1, (double) i)*determinan(temp);
-            }
-            return det;
-        }
+        
     }
 }
