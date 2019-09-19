@@ -3,12 +3,12 @@ package src;
 import java.util.Scanner;
 
 public class Matrix{
-    public double[][]tab;
+    public float[][]tab;
     public int tBrs;
     public int tKol;
 
     public void makeMatrix(int brs , int kol){
-        tab=new double[brs+1][kol+1];
+        tab=new float[brs+1][kol+1];
         this.tBrs=brs;
         this.tKol=kol;
     }
@@ -18,7 +18,7 @@ public class Matrix{
     public int getLastIdxKol(){
         return this.tKol;
     }
-    public double getElmt(int brs, int kol, double[][]tab){
+    public float getElmt(int brs, int kol, float[][]tab){
         return this.tab[brs][kol];
     }
     public void bacaMatrix(){
@@ -31,7 +31,7 @@ public class Matrix{
         System.out.println("Elemen matrix: ");
         for(int i=1; i<=getLastIdxBrs(); i++){
             for(int j=1; j<=getLastIdxKol(); j++){
-                this.tab[i][j]=scan.nextDouble();
+                this.tab[i][j]=scan.nextFloat();
             }
         }    
     }
@@ -44,7 +44,7 @@ public class Matrix{
         }
     }
     public void transpose(){
-        double[][]temp=new double[this.tBrs+1][this.tKol+1];
+        float[][]temp=new float[this.tBrs+1][this.tKol+1];
         for(int i=1; i<=getLastIdxBrs(); i++){
             for(int j=1; j<=getLastIdxKol(); j++){
                 temp[j][i]=this.tab[i][j];
@@ -84,7 +84,7 @@ public class Matrix{
     }
     public void interchange(int brs1, int brs2){
         for(int i=1; i<=getLastIdxKol(); i++){
-            double temp=this.tab[brs1][i];
+            float temp=this.tab[brs1][i];
             this.tab[brs1][i]=this.tab[brs2][i];
             this.tab[brs2][i]=temp;
         }
@@ -108,7 +108,7 @@ public class Matrix{
             if(!isZero(i)){
                 for(int j=i+1; j<=getLastIdxBrs(); j++){
                     if(!isZero(j)){
-                        double x = (this.tab[j][getKolLead(i)]/this.tab[i][getKolLead(i)])*(-1);
+                        float x = (this.tab[j][getKolLead(i)]/this.tab[i][getKolLead(i)])*(-1);
                         for(int k=1; k<=getLastIdxKol(); k++){
                             this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
                         }
@@ -118,7 +118,7 @@ public class Matrix{
         }
         for(int i=1; i<=getLastIdxBrs(); i++){
             if(!isZero(i)){
-                double x = this.tab[i][getKolLead(i)];
+                float x = this.tab[i][getKolLead(i)];
                 for(int j=1; j<=getLastIdxKol(); j++){
                     this.tab[i][j]=(this.tab[i][j]/x);
                 }
@@ -131,7 +131,7 @@ public class Matrix{
             if (!isZero(i)){
                 for (int j = i-1; j>=1; j--){
                     if (!isZero(j)){
-                        double x = this.tab[j][getKolLead(i)]*(-1);                        
+                        float x = this.tab[j][getKolLead(i)]*(-1);                        
                         for(int k=1; k<=getLastIdxKol(); k++){
                             this.tab[j][k]=this.tab[j][k]+(x*this.tab[i][k]);
                         }
@@ -140,9 +140,9 @@ public class Matrix{
             }
         }
     }
-    public double determinan(double[][]matrix){
-        double [][]temp;
-        double det=0;
+    public float determinan(float[][]matrix){
+        float [][]temp;
+        float det=0;
         if(getLastIdxBrs()==1){
             det=getElmt(1, 1, tab);
             return det;
@@ -153,7 +153,7 @@ public class Matrix{
         }
         else{
             for(int i=1; i<=getLastIdxBrs(); i++){
-                temp=new double[this.tBrs-1][this.tKol-1];
+                temp=new float[this.tBrs-1][this.tKol-1];
                 for(int j=2; j<=getLastIdxBrs(); j++){
                     for(int k=1; k<=getLastIdxKol(); k++){
                         if(k<i){
@@ -164,9 +164,25 @@ public class Matrix{
                         }
                     }
                 }
-                det = det+tab[1][i]*Math.pow(-1, (double) i)*determinan(temp);
+                if(i%2==0){
+                    det = det+((-1)*tab[1][i]*determinan(temp));
+                }
+                else{
+                    det = det+(tab[1][i]*determinan(temp));
+                }
             }
             return det;
+        }
+    }
+    public void getSolMatrix(){
+        for(int i=1; i<=getLastIdxBrs(); i++){
+            for(int j=1; j<=getLastIdxKol(); j++){
+                if(!isZero(i)){
+                    if(j==getLastIdxKol()){
+                        System.out.println(getElmt(i, j, tab));
+                    }
+                }
+            }
         }
     }
 }
