@@ -11,11 +11,11 @@ public class driver {
         tab.bacaMatrix();
         tab.tulisMatrix();
         System.out.println();
-        tab.gaussElim();
-        tab.tulisMatrix();
-        System.out.println();
-        tab.gaussJordanElim();
-        tab.tulisMatrix();
-//        System.out.println(tab.determinanG());
+//        tab.gaussElim();
+//        tab.tulisMatrix();
+//        System.out.println();
+//        tab.gaussJordanElim();
+//        tab.tulisMatrix();
+//        System.out.println(tab.determinan());
     }
 }

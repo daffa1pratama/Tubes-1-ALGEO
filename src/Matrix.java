@@ -124,21 +124,7 @@ public class Matrix{
                 }
             }
         }
-    }
-    public double determinanG(){
-        double det=1;
-        for(int i=1; i<getLastIdxBrs(); i++){
-            if(!isZero(i)){
-                for(int j=i+1; j<=getLastIdxBrs(); j++){
-                    if(!isZero(j)){
-                        double x = (this.tab[j][getKolLead(i)]/this.tab[i][getKolLead(i)])*(-1);
-                        det = det*(1/x);
-                    }
-                }
-            }
-        }
-        return det;
-    }       
+    }     
     public void gaussJordanElim(){
         this.gaussElim();
         for (int i = getLastIdxBrs(); i>1; i--){
@@ -152,6 +138,35 @@ public class Matrix{
                     }
                 }
             }
+        }
+    }
+    public double determinan(double[][]matrix){
+        double [][]temp;
+        double det=0;
+        if(getLastIdxBrs()==1){
+            det=getElmt(1, 1, tab);
+            return det;
+        }
+        else if(getLastIdxBrs()==2){
+            det=((tab[1][1]*tab[2][2])-(tab[1][2]*tab[2][1]));
+            return det;
+        }
+        else{
+            for(int i=1; i<=getLastIdxBrs(); i++){
+                temp=new double[this.tBrs-1][this.tKol-1];
+                for(int j=2; j<=getLastIdxBrs(); j++){
+                    for(int k=1; k<=getLastIdxKol(); k++){
+                        if(k<i){
+                            temp[j-1][k]=tab[j][k];
+                        }
+                        else if(k>i){
+                            temp[j-1][k-1]=tab[j][k];
+                        }
+                    }
+                }
+                det = det+tab[1][i]*Math.pow(-1, (double) i)*determinan(temp);
+            }
+            return det;
         }
     }
 }
