@@ -36,8 +36,8 @@ public class driver {
         System.out.println();*/
 //        Matrix Ainvers = A.invers();
 //        Ainvers.tulisMatrix();   
-//        double[][]copy=A.tab;
-//        System.out.println("Determinan: "+ A.determinanC(copy));
+        double[][]copy=A.tab;
+        System.out.println("Determinan: "+ A.determinanC(copy));
         System.out.println("Determinan: "+ A.determinanG());
 //        A.gaussElim();
 //        A.tulisMatrix();

@@ -153,20 +153,22 @@ public class Matrix{
         }
         return Mjordan;
     }
-   
+    public double kofaktor(double[][]subMatrix){
+        
+    }
     public double determinanC(double[][]subMatrix){
         double [][]temp;
         double det=0;
-        if(subMatrix.length==1){
+        if(subMatrix.length==2){
             det=subMatrix[1][1];
         }
         else{
             temp=new double[subMatrix.length-1][subMatrix.length-1];
-            for(int k=0; k<subMatrix.length; k++){
-                int m=0;
-                for(int i=1; i<subMatrix.length; i++){
-                    int n=0;
-                    for(int j=0; j<subMatrix.length; j++){
+            for(int k=1; k<subMatrix.length; k++){
+                int m=1;
+                for(int i=2; i<subMatrix.length; i++){
+                    int n=1;
+                    for(int j=1; j<subMatrix.length; j++){
                         if(j!=k){
                             temp[m][n]=subMatrix[i][j];
                             n++;
@@ -175,59 +177,16 @@ public class Matrix{
                     m++;
                 }
                 if(k%2!=0){
-                    det=det + ((-1)*determinanC(temp)*subMatrix[0][k]);
+                    det=det + ((-1)*determinanC(temp)*subMatrix[1][k]);
                 }
                 else{
-                    det=det + (determinanC(temp)*subMatrix[0][k]);
+                    det=det + (determinanC(temp)*subMatrix[1][k]);
                 }
             }
         }
         return det;
     }
-    /*
-    public double determinan (double[][] matrix) {
-		double temporary[][];
-		double result = 0;
-
-		if (matrix.length == 1) {
-			result = matrix[0][0];
-			return (result);
-		}
-
-		if (matrix.length == 2) {
-			result = ((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]));
-			return (result);
-		}
-
-		for (int i = 0; i < matrix[0].length; i++) {
-			temporary = new double[matrix.length - 1][matrix[0].length - 1];
-
-			for (int j = 1; j < matrix.length; j++) {
-				for (int k = 0; k < matrix[0].length; k++) {
-					if (k < i) {
-						temporary[j - 1][k] = matrix[j][k];
-					} else if (k > i) {
-						temporary[j - 1][k - 1] = matrix[j][k];
-					}
-				}
-			}
-
-			result += matrix[0][i] * Math.pow (-1, (double) i) * determinan (temporary);
-		}
-		return (result);
-	}
-    public void getSolMatrix(){
-        for(int i=1; i<=getLastIdxBrs(); i++){
-            for(int j=1; j<=getLastIdxKol(); j++){
-                if(!isZero(i)){
-                    if(j==getLastIdxKol()){
-                        System.out.println(this.tab[i][j]);
-                    }
-                }
-            }
-        }
-    }
-    */
+    
     public double determinanG(){
         double det=0;
         Matrix copy = new Matrix(this.tBrs, this.tKol);
