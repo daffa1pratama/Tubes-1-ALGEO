@@ -48,6 +48,7 @@ public class Main {
                                 System.out.println("* Cara Baca *");
                                 System.out.println("1. Keyboard");
                                 System.out.println("2. File");
+                                inputan = scan.nextInt();
                                 if(inputan = 1){
                                     System.out.println("Masukkan SPL dalam bentuk augmented matriks!");
                                     System.out.println("Jumlah persamaan: ");
@@ -56,15 +57,150 @@ public class Main {
                                     kol1 = scan.nextInt();
                                     Matrix A = new Matrix(brs1, kol1);
                                     A.bacaMatrix();
-                                    A.gauss();
-                                    A.solGauss();
+                                    A.gaussElim();
+                                    //A.solGauss();
+                                    A.tulisMatrix();
                                 }
-                                if()
+                                if(inputan = 2){
+                                    System.out.println("SEK DURUNG ONOK COK");
+                                }
+                                break;
+                            case 2:
+                                System.out.println("* Cara Baca *");
+                                System.out.println("1. Keyboard");
+                                System.out.println("2. File");
+                                inputan = scan.nextInt();
+                                if(inputan = 1){
+                                    System.out.println("Masukkan SPL dalam bentuk augmented matriks!");
+                                    System.out.println("Jumlah persamaan: ");
+                                    brs1 = scan.nextInt();
+                                    System.out.println("Jumlah variabel: ");
+                                    kol1 = scan.nextInt();
+                                    Matrix A = new Matrix(brs1, kol1);
+                                    A.bacaMatrix();
+                                    A.gaussJordanElim();
+                                    //A.solGaussJordan();
+                                    A.tulisMatrix();
+                                }
+                                if(inputan = 2){
+                                    System.out.println("SEK DURUNG ONOK COK");
+                                }
+                                break;
+                            case 3:
+                                System.out.println("!METODE CRAMER HANYA BISA DILAKUKAN UNTUK N PERSAMAAN DAN N PEUBAH");
+                                System.out.println("* Cara Baca *");
+                                System.out.println("1. Keyboard");
+                                System.out.println("2. File");
+                                if(inputan = 1){
+                                    System.out.println("Masukkan SPL dengan N persamaan dan N peubah!");
+                                    System.out.println("Jumlah persamaan: ");
+                                    brs1 = scan.nextInt();
+                                    System.out.println("Jumlah variabel: ");
+                                    kol1 = scan.nextInt();
+                                    Matrix A = new Matrix(brs1, kol1);
+                                    A.bacaMatrix();
+                                    A.getCramer();
+                                }
+                                if(inputan = 2){
+                                    System.out.println("SEK DURUNG ONOK COK");
+                                }
+                                break;
+                            case 4:
+                                System.out.println("* Cara Baca *");
+                                System.out.println("1. Keyboard");
+                                System.out.println("2. File");
+                                if(inputan = 1){
+                                    System.out.println("Masukkan SPL dalam bentuk matriks AX=B!");
+                                    System.out.println("MATRIKS A")
+                                    System.out.println("Jumlah baris: ");
+                                    brs1 = scan.nextInt();
+                                    System.out.println("Jumlah kolom: ");
+                                    kol1 = scan.nextInt();
+                                    Matrix A = new Matrix(brs1, kol1);
+                                    A.bacaMatrix();
+                                    System.out.println("MATRIKS B")
+                                    System.out.println("Jumlah baris: ");
+                                    brs2 = scan.nextInt();
+                                    System.out.println("Jumlah kolom: ");
+                                    kol2 = scan.nextInt();
+                                    Matrix B = new Matrix(brs2, kol2);
+                                    B.bacaMatrix();
+                                    A.inversC();
+                                    A.kaliMatrix(B);
+                                    A.tulisMatrix();
+                                }
+                                if(inputan = 2){
+                                    System.out.println("SEK DURUNG ONOK COK");
+                                }
+                                break;
+                            default:
+                                System.out.println("Masukkan pilihan dengan benar ! (0-4");
                         }
                     } while(submenu!=0);
-                    
                     break;
-            
+                case 2:
+                    do{
+                        System.out.println("*** Determinan ***");
+                        System.out.println("1. Metode Gauss");
+                        System.out.println("2. Metode Matriks Kofaktor");
+                        System.out.println("0. Keluar");
+                        System.out.println("!DETERMINAN HANYA BISA DILAKUKAN UNTUK MATRIKS NxN!");
+                        System.out.println();
+                        System.out.print("Pilih sub-Menu: ");
+                        submenu=scan.nextInt();                    
+                        switch (submenu){
+                            case 1:
+                            System.out.println("* Cara Baca *");
+                            System.out.println("1. Keyboard");
+                            System.out.println("2. File");
+                            inputan = scan.nextInt();
+                            if(inputan = 1){
+                                System.out.println("Masukkan Matriks");
+                                System.out.println("Jumlah baris: ");
+                                brs1 = scan.nextInt();
+                                System.out.println("Jumlah kolom: ");
+                                kol1 = scan.nextInt();
+                                Matrix A = new Matrix(brs1, kol1);
+                                A.bacaMatrix();
+                                System.out.println("Determinan: "+ A.determinanC(copy));
+                            }
+                            if(inputan = 2){
+                                System.out.println("SEK DURUNG ONOK COK");
+                            }
+                            break;
+                            case 2:
+                            System.out.println("* Cara Baca *");
+                            System.out.println("1. Keyboard");
+                            System.out.println("2. File");
+                            inputan = scan.nextInt();
+                            if(inputan = 1){
+                                System.out.println("Masukkan Matriks");
+                                System.out.println("Jumlah baris: ");
+                                brs1 = scan.nextInt();
+                                System.out.println("Jumlah kolom: ");
+                                kol1 = scan.nextInt();
+                                Matrix A = new Matrix(brs1, kol1);
+                                A.bacaMatrix();
+                                System.out.println("Determinan: "+ A.determinanG());
+                            }
+                            if(inputan = 2){
+                                System.out.println("SEK DURUNG ONOK COK");
+                            }
+                            break;
+                            default:
+                                System.out.println("Masukkan pilihan dengan benar ! (0-4");
+                        }
+                    }while(submenu!=0);
+                    break;
+                case 3:
+                    do{
+                        System.out.println("*** Invers Matriks ***");
+                        System.out.println("1. Metode Gauss-Jordan");
+                        System.out.println("2. Metode Adjoin");
+                        System.out.println("0. Keluar");
+                        System.out.println();
+                        System.out.print("Pilih sub-Menu: ");
+                        submenu=scan.nextInt();                    }while(submenu!=0);
                 default:
                     break;
             }
