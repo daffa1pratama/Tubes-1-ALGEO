@@ -13,19 +13,28 @@ public class driver {
         a = scan.nextInt();
         System.out.println("Jumlah kolom: ");
         b = scan.nextInt();
- /*       System.out.println("Jumlah baris: ");
+        System.out.println("Jumlah baris: ");
         c = scan.nextInt();
         System.out.println("Jumlah kolom: ");
-        d = scan.nextInt();*/
+        d = scan.nextInt();
         Matrix A = new Matrix(a,b);
-//        Matrix B = new Matrix(c,d);
+        Matrix B = new Matrix(c,d);
 //        M.makeMatrixIdentitas();
 //        M.tulisMatrix(M);
         A.bacaMatrix();
         A.tulisMatrix();
         System.out.println();
-        Matrix AId = A.makeIdentitas();
-        AId.tulisMatrix();
+        B.bacaMatrix();
+        B.tulisMatrix();
+        Matrix AinvC = A.inversC();
+//        AinvC.tulisMatrix();
+        System.out.println();
+        Matrix hasil = AinvC.kaliMatrix(B);
+        hasil.tulisMatrix();
+//        Matrix  AinvG = A.inversG();
+//        AinvG.tulisMatrix();
+//        Matrix AId = A.makeIdentitas();
+//        AId.tulisMatrix();
  //       B.bacaMatrix();
  //       B.tulisMatrix();
 /*        Matrix Agauss = A.gaussElim();
@@ -36,9 +45,9 @@ public class driver {
         System.out.println();*/
 //        Matrix Ainvers = A.invers();
 //        Ainvers.tulisMatrix();   
-        double[][]copy=A.tab;
-        System.out.println("Determinan: "+ A.determinanC(copy));
-        System.out.println("Determinan: "+ A.determinanG());
+//        double[][]copy=A.tab;
+//        System.out.println("Determinan: "+ A.determinanC(copy));
+//        System.out.println("Determinan: "+ A.determinanG());
 //        A.gaussElim();
 //        A.tulisMatrix();
 //        System.out.println();

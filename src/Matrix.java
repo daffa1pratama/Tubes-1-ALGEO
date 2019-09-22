@@ -8,7 +8,7 @@ public class Matrix{
     public int tKol;
 
     public Matrix (int brs , int kol){
-        this.tab=new double[brs+1][kol+1];
+        tab=new double[brs+1][kol+1];
         this.tBrs=brs;
         this.tKol=kol;
     }
@@ -26,7 +26,6 @@ public class Matrix{
         }
         return identitas;
     }
-
     public int getLastIdxBrs(){
         return this.tBrs;
     }
@@ -153,8 +152,45 @@ public class Matrix{
         }
         return Mjordan;
     }
-    public double kofaktor(double[][]subMatrix){
-        
+    public double[][] createSubMatrix(int brs, int kol){
+        double[][]subM = new double[this.tBrs][this.tKol];
+        int m=1;
+        for(int i=1; i<=this.tBrs; i++){
+            int n=1;
+            for(int j=1; j<=this.tKol; j++){
+                if(i!=brs && j!=kol){
+                    subM[m][n]=this.tab[i][j];
+                    n++;
+                }
+            }
+            if(i!=brs){
+                m++;
+            }
+        }
+        return subM;
+    }
+    public Matrix cofactorMatrix(double[][]cofac){
+        Matrix cofacM = new Matrix(this.tBrs, this.tKol);
+        Matrix temp = new Matrix(this.tBrs, this.tKol);
+        temp.tab=this.tab;
+        for(int i=1; i<=this.tBrs; i++){
+            for(int j=1; j<=this.tKol; j++){
+                if((i+j)%2==0){
+                    cofacM.tab[i][j]=temp.determinanC(createSubMatrix(i,j))*(-1);
+                }
+                else{
+                    cofacM.tab[i][j]=temp.determinanC(createSubMatrix(i,j));
+                }
+            }
+        }
+        return cofacM;
+    }
+    public void kaliKons(double kons){
+        for(int i=1; i<=getLastIdxBrs(); i++){
+            for(int j=1; j<=getLastIdxKol(); j++){
+                this.tab[i][j]*=kons;
+            }
+        }
     }
     public double determinanC(double[][]subMatrix){
         double [][]temp;
@@ -168,7 +204,7 @@ public class Matrix{
                 int m=1;
                 for(int i=2; i<subMatrix.length; i++){
                     int n=1;
-                    for(int j=1; j<subMatrix.length; j++){
+                    for(int j=1; j<subMatrix[1].length; j++){
                         if(j!=k){
                             temp[m][n]=subMatrix[i][j];
                             n++;
@@ -185,8 +221,7 @@ public class Matrix{
             }
         }
         return det;
-    }
-    
+    }   
     public double determinanG(){
         double det=0;
         Matrix copy = new Matrix(this.tBrs, this.tKol);
@@ -226,7 +261,7 @@ public class Matrix{
         }
         return det;
     }
-    public Matrix invers(){
+    public Matrix inversG(){
         Matrix inv = new Matrix(this.tBrs, this.tKol);
         inv.tab = this.tab;
         Matrix id = new Matrix(this.tBrs, this.tKol);
@@ -269,4 +304,80 @@ public class Matrix{
         }
         return id;
     }
+    public Matrix inversC(){
+        Matrix inversM = new Matrix(this.tBrs, this.tKol);
+        inversM.tab=this.tab;
+        double det = 1/(determinanC(inversM.tab));
+        inversM = cofactorMatrix(inversM.tab);
+        inversM.tulisMatrix();
+        inversM.transpose();
+        inversM.kaliKons(det);
+        return inversM;
+    }
+    public Matrix kaliMatrix(Matrix B){
+        Matrix hasil = new Matrix(B.tBrs, 1);
+        for(int i=1; i<=this.tBrs; i++){
+            for(int j=1; j<=B.tKol; j++){
+                double sum=0;
+                for(int k=1; k<=this.tKol; k++){
+                    sum=sum+(this.tab[i][k] * B.tab[k][j]);
+                }
+                hasil.tab[i][j] = sum;
+            }
+        }
+        return hasil;
+    }
+    public void solGaussJordan(){
+    //    Matrix solution = new Matrix(this.tBrs,1)
+        int countZero = 0;
+        for(int i=1; i<=this.tBrs; i++){
+            if(!this.isZero(i)){
+    //            solution.tab[i][this.tKol]=this.tab[i][this.tKol];
+                System.out.println(String.format("X"+i+" = %.2f"+tab[i][this.tKol]));
+            }
+            else{
+                countZero++;
+    //            solution.tab[i][this.tKol]=-9999
+                System.out.println("X"+i+" = "+"s"+countZero);
+            }
+        }
+    }
+    public void solGauss(){
+        boolean checkSol = true;
+        for(int k=1; k<=this.tBrs; k++){
+            boolean foundLead = false;
+            for(int l=1; l<this.tKol; l++){
+                if(this.tab[k][l]!=0){
+                    foundLead = true;
+                }
+            }
+            if(!foundLead && this.tab[k][this.tKol]!=0){
+                checkSol = false;
+                break;
+            }
+        }
+        for(int i=1; i<=this.tBrs; i++){
+            double sum=0;
+            int countZero = 0;
+            String solution = "";
+            for(int j=i+1; j<this.tKol; j++){
+                if(!isZero(j)){
+                    sum = sum+(this.tab[i][j]*(-1)*this.tab[j][this.tKol]);
+                }
+                else{
+                    countZero++;
+                }
+            }
+            if(countZero==0){
+               solution=String.format("X"+i+" = %.2f"+sum);
+            }
+            else{
+                for(int k=1; k<=countZero; k++){
+                    solution=solution+(String.format("X"+i+" = %.2f"+sum+"-s"+countZero));
+                }
+            }
+            System.out.println(solution);
+        }
+    }
+
 }
