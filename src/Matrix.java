@@ -379,5 +379,24 @@ public class Matrix{
             System.out.println(solution);
         }
     }
+    public Matrix gantiKolom(int kol){
+        Matrix cramer = new Matrix(this.tBrs, this.tKol);
+        Matrix B = new Matrix(this.tBrs, 1);
+        cramer.tab = this.tab;
+        for(int i=1; i<=this.tBrs; i++){
+            cramer.tab[i][kol]=B.tab[i][kol];
+        }
+        return cramer;
+    }
+    public double getCramer(){
+        double det = this.determinanC(this.tab);
+        double X=0;
+        for(int i=1; i<=this.tKol; i++){
+            Matrix makeCramer = this.gantiKolom(i);
+            double detX = makeCramer.determinanC(makeCramer.tab);
+            X = detX/det;
+        }
+        return X;
+    }
 
 }
