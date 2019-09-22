@@ -150,24 +150,24 @@ public class Main {
                         submenu=scan.nextInt();                    
                         switch (submenu){
                             case 1:
-                            System.out.println("* Cara Baca *");
-                            System.out.println("1. Keyboard");
-                            System.out.println("2. File");
-                            inputan = scan.nextInt();
-                            if(inputan = 1){
-                                System.out.println("Masukkan Matriks");
-                                System.out.println("Jumlah baris: ");
-                                brs1 = scan.nextInt();
-                                System.out.println("Jumlah kolom: ");
-                                kol1 = scan.nextInt();
-                                Matrix A = new Matrix(brs1, kol1);
-                                A.bacaMatrix();
-                                System.out.println("Determinan: "+ A.determinanC(copy));
-                            }
-                            if(inputan = 2){
-                                System.out.println("SEK DURUNG ONOK COK");
-                            }
-                            break;
+                                System.out.println("* Cara Baca *");
+                                System.out.println("1. Keyboard");
+                                System.out.println("2. File");
+                                inputan = scan.nextInt();
+                                if(inputan = 1){
+                                    System.out.println("Masukkan Matriks");
+                                    System.out.println("Jumlah baris: ");
+                                    brs1 = scan.nextInt();
+                                    System.out.println("Jumlah kolom: ");
+                                    kol1 = scan.nextInt();
+                                    Matrix A = new Matrix(brs1, kol1);
+                                    A.bacaMatrix();
+                                    System.out.println("Determinan: "+ A.determinanC(copy));
+                                }
+                                if(inputan = 2){
+                                    System.out.println("SEK DURUNG ONOK COK");
+                                }
+                                break;
                             case 2:
                             System.out.println("* Cara Baca *");
                             System.out.println("1. Keyboard");
@@ -186,9 +186,9 @@ public class Main {
                             if(inputan = 2){
                                 System.out.println("SEK DURUNG ONOK COK");
                             }
-                            break;
+                                break;
                             default:
-                                System.out.println("Masukkan pilihan dengan benar ! (0-4");
+                                System.out.println("Masukkan pilihan dengan benar ! (0-2");
                         }
                     }while(submenu!=0);
                     break;
@@ -198,9 +198,139 @@ public class Main {
                         System.out.println("1. Metode Gauss-Jordan");
                         System.out.println("2. Metode Adjoin");
                         System.out.println("0. Keluar");
+                        System.out.println("!INVERS HANYA BISA DILAKUKAN JIKA DETERMINAN != 0 DAN MATRIKS NxN");
                         System.out.println();
                         System.out.print("Pilih sub-Menu: ");
-                        submenu=scan.nextInt();                    }while(submenu!=0);
+                        submenu=scan.nextInt();
+                        switch (submenu){
+                            case 1:
+                                System.out.println("* Cara Baca *");
+                                System.out.println("1. Keyboard");
+                                System.out.println("2. File");
+                                inputan = scan.nextInt();
+                                if(inputan = 1){
+                                    System.out.println("Masukkan Matriks");
+                                    System.out.println("Jumlah baris: ");
+                                    brs1 = scan.nextInt();
+                                    System.out.println("Jumlah kolom: ");
+                                    kol1 = scan.nextInt();
+                                    Matrix A = new Matrix(brs1, kol1);
+                                    A.bacaMatrix();
+                                    Matrix copyA = A.inversG();
+                                    copyA.tulisMatrix();
+                                }
+                                if(inputan = 2){
+                                    System.out.println("SEK DURUNG ONOK COK");
+                                }
+                                break;
+                            case 2:
+                                System.out.println("* Cara Baca *");
+                                System.out.println("1. Keyboard");
+                                System.out.println("2. File");
+                                inputan = scan.nextInt();
+                                if(inputan = 1){
+                                    System.out.println("Masukkan Matriks");
+                                    System.out.println("Jumlah baris: ");
+                                    brs1 = scan.nextInt();
+                                    System.out.println("Jumlah kolom: ");
+                                    kol1 = scan.nextInt();
+                                    Matrix A = new Matrix(brs1, kol1);
+                                    A.bacaMatrix();
+                                    Matrix copyA = A.inversC();
+                                    copyA.tulisMatrix();
+                                }
+                                if(inputan = 2){
+                                    System.out.println("SEK DURUNG ONOK COK");
+                                }
+                                break;
+                                default:
+                                    System.out.println("Masukkan pilihan dengan benar ! (0-2");
+                    }while(submenu!=0);
+                    break;
+                case 4:
+                    System.out.println("* Cara Baca *");
+                    System.out.println("1. Keyboard");
+                    System.out.println("2. File");
+                    inputan = scan.nextInt();
+                    if(inputan = 1){
+                        System.out.println("Masukkan Matriks");
+                        System.out.println("Jumlah baris: ");
+                        brs1 = scan.nextInt();
+                        System.out.println("Jumlah kolom: ");
+                        kol1 = scan.nextInt();
+                        Matrix A = new Matrix(brs1, kol1);
+                        A.bacaMatrix();
+                        Matrix copyA = A.cofactorMatrix(A.tab);
+                        copyA.tulisMatrix();
+                    }
+                    if(inputan = 2){
+                        System.out.println("SEK DURUNG ONOK COK");
+                    }
+                    break;   
+                case 5:
+                    System.out.println("* Cara Baca *");
+                    System.out.println("1. Keyboard");
+                    System.out.println("2. File");
+                    inputan = scan.nextInt();
+                    if(inputan = 1){
+                        System.out.println("Masukkan Matriks");
+                        System.out.println("Jumlah baris: ");
+                        brs1 = scan.nextInt();
+                        System.out.println("Jumlah kolom: ");
+                        kol1 = scan.nextInt();
+                        Matrix A = new Matrix(brs1, kol1);
+                        A.bacaMatrix();
+                        A.transpose();
+                        A.tulisMatrix();
+                    }
+                    if(inputan = 2){
+                        System.out.println("SEK DURUNG ONOK COK");
+                    }
+                    break;   
+                case 6:
+                    System.out.println("* Cara Baca *");
+                    System.out.println("1. Keyboard");
+                    System.out.println("2. File");
+                    inputan = scan.nextInt();
+                    if(inputan = 1){
+                        System.out.println("Masukkan Matriks");
+                        System.out.println("Jumlah baris: ");
+                        brs1 = scan.nextInt();
+                        System.out.println("Jumlah kolom: ");
+                        kol1 = scan.nextInt();
+                        Matrix A = new Matrix(brs1, kol1);
+                        A.bacaMatrix();
+                        Matrix copyA = A.cofactorMatrix(A.tab);
+                        copyA.transpose();
+                        copyA.tulisMatrix();
+                    }
+                    if(inputan = 2){
+                        System.out.println("SEK DURUNG ONOK COK");
+                    }
+                    break; 
+                /* INTERPOLASI 
+                case 7:
+                    System.out.println("* Cara Baca *");
+                    System.out.println("1. Keyboard");
+                    System.out.println("2. File");
+                    inputan = scan.nextInt();
+                    if(inputan = 1){
+                        System.out.println("Masukkan Matriks");
+                        System.out.println("Jumlah baris: ");
+                        brs1 = scan.nextInt();
+                        System.out.println("Jumlah kolom: ");
+                        kol1 = scan.nextInt();
+                        Matrix A = new Matrix(brs1, kol1);
+                        A.bacaMatrix();
+                        Matrix copyA = A.cofactorMatrix(A.tab);
+                        copyA.transpose();
+                        copyA.tulisMatrix();
+                    }
+                    if(inputan = 2){
+                        System.out.println("SEK DURUNG ONOK COK");
+                    }
+                break;
+                */
                 default:
                     break;
             }

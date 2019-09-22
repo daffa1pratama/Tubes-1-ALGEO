@@ -309,7 +309,6 @@ public class Matrix{
         inversM.tab=this.tab;
         double det = 1/(determinanC(inversM.tab));
         inversM = cofactorMatrix(inversM.tab);
-        inversM.tulisMatrix();
         inversM.transpose();
         inversM.kaliKons(det);
         return inversM;
