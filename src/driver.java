@@ -1,13 +1,18 @@
 package src;
 import src.Matrix;
 import java.util.Scanner;
+import java.io.IOException;
 
 /**
  * driver
  */
 public class driver {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, IOException{
         Scanner scan = new Scanner(System.in);
+        Matrix M = new Matrix(100,100);
+        M.readFile("tst.txt");
+        M.tulisMatrix();
+        /*
         int a,b,c,d;
         System.out.println("Jumlah baris: ");
         a = scan.nextInt();
@@ -26,23 +31,29 @@ public class driver {
         System.out.println();
         B.bacaMatrix();
         B.tulisMatrix();
-        Matrix AinvC = A.inversC();
-//        AinvC.tulisMatrix();
         System.out.println();
-        Matrix hasil = AinvC.kaliMatrix(B);
-        hasil.tulisMatrix();
+        A.getCramer(B);*/
+//        Matrix AinvC = A.inversC();
+//        AinvC.tulisMatrix();
+//        System.out.println();
+//        Matrix hasil = AinvC.kaliMatrix(B);
+        //hasil.tulisMatrix();
 //        Matrix  AinvG = A.inversG();
 //        AinvG.tulisMatrix();
 //        Matrix AId = A.makeIdentitas();
 //        AId.tulisMatrix();
  //       B.bacaMatrix();
  //       B.tulisMatrix();
-/*        Matrix Agauss = A.gaussElim();
+/*        Matrix Agauss = new Matrix(A.tBrs, A.tKol);
+        A.copyMatrix(Agauss);
+        Agauss.gaussElim();
         Agauss.tulisMatrix();
         System.out.println();
-        Matrix Ajordan = A.gaussJordanElim();
-        Ajordan.tulisMatrix();
-        System.out.println();*/
+        A.tulisMatrix();*/
+//        Agauss.solGauss();*/
+//        Matrix Ajordan = A.gaussJordanElim();
+//        Ajordan.tulisMatrix();
+//        System.out.println();*/
 //        Matrix Ainvers = A.invers();
 //        Ainvers.tulisMatrix();   
 //        double[][]copy=A.tab;

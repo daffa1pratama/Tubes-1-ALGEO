@@ -1,6 +1,7 @@
 package src;
 
 import java.util.Scanner;
+import java.io.File;
 
 public class Matrix{
     public double[][]tab;
@@ -8,11 +9,22 @@ public class Matrix{
     public int tKol;
 
     public Matrix (int brs , int kol){
+    //Konstruktor Matriks
+    //I.S. Matriks kosong sembarang
+    //F.S. Matriks tersedia dengan panjang brs x kol
         tab=new double[brs+1][kol+1];
         this.tBrs=brs;
         this.tKol=kol;
     }
     public Matrix makeIdentitas(){
+    //Membuat matriks identitas dengan panjang brs x kol, dimana brs = kol (persegi)
+    //I.S. Matriks sembarang
+    //F.S. Matriks identitas N x N
+    //contoh:
+    /*  1   0   0
+        0   1   0
+        0   0   1
+    */
         Matrix identitas = new Matrix(this.tBrs, this.tKol);
         for(int i=1; i<=getLastIdxBrs(); i++){
             for(int j=1; j<=getLastIdxKol(); j++){
@@ -27,12 +39,18 @@ public class Matrix{
         return identitas;
     }
     public int getLastIdxBrs(){
+    //I.S. Matriks terdefinisi
+    //F.S. Mengembalikan panjang baris
         return this.tBrs;
     }
     public int getLastIdxKol(){
+    //I.S. Matriks terdefinisi
+    //F.S. Mengembalikan panjang kolom
         return this.tKol;
     }
     public void bacaMatrix(){
+    //I.S. Matriks kosong terdefinisi
+    //F.S. Matriks telah terisi sesuai input dari keyboard
         Scanner scan = new Scanner(System.in);
         System.out.println("Elemen matrix: ");
         for(int i=1; i<=getLastIdxBrs(); i++){
@@ -42,14 +60,24 @@ public class Matrix{
         }   
     }
     public void tulisMatrix(){
+    //I.S. Matriks telah terisi
+    //F.S. Menuliskan matriks ke layar
+    /*contoh:
+        5   7   8
+        1   8   1
+        4   1   5
+    */
         for(int i=1; i<=getLastIdxBrs(); i++){
             for(int j=1; j<=getLastIdxKol(); j++){
-                System.out.print(this.tab[i][j]+"\t");
+                System.out.print(String.format("%.2f",this.tab[i][j])+"\t");
             }
             System.out.println();
         }
     }
     public void transpose(){
+    //Transpose adalah mengubah matriks dari elemen ke-i,j menjadi elemen ke-j,i
+    //I.S. Matriks persegi terdefinisi
+    //F.S. Mengubah bentuk matriks menjadi matriks transpose
         double[][]temp=new double[this.tBrs+1][this.tKol+1];
         for(int i=1; i<=getLastIdxBrs(); i++){
             for(int j=1; j<=getLastIdxKol(); j++){
@@ -63,6 +91,8 @@ public class Matrix{
         }
     }
     public int getKolLead(int brs){
+    //I.S. Matriks terdefinisi
+    //F.S. Mengembalikan indeks kolom dari leading number
         int j=1;
         boolean found=false;
         while (!found && j<=getLastIdxKol()){
@@ -76,6 +106,9 @@ public class Matrix{
         return j;
     }
     public boolean isZero(int brs){
+    //Mengecek apakah semua elemen pada satu baris adalah 0 semua
+    //I.S. Matriks terdefinisi
+    //F.S. Mengembalikan boolean hasil pengecekan 0 pada baris
         int j=1;
         boolean found=true;
         while(j<=getLastIdxKol()&&found){
@@ -88,7 +121,18 @@ public class Matrix{
         }
         return found;
     }
+    public Matrix copyMatrix(Matrix B){
+        for(int i=1; i<=this.tBrs; i++){
+            for(int j=1; j<=this.tKol; j++){
+                B.tab[i][j]=this.tab[i][j];
+            }
+        }
+        return B;
+    }
     public void interchange(int brs1, int brs2){
+    //Menukar baris ke-i dengan baris ke-j pada matriks
+    //I.S. Matriks terdefinisi
+    //F.S. Matriks hasil penukaran baris1 dengan baris2
         for(int i=1; i<=getLastIdxKol(); i++){
             double temp=this.tab[brs1][i];
             this.tab[brs1][i]=this.tab[brs2][i];
@@ -96,6 +140,14 @@ public class Matrix{
         }
     }
     public void urutMatrix(){
+    //Mengurutkan baris matriks sesuai dengan leading number
+    //I.S. Matriks terdefinsi
+    //F.S. Matriks telah urut sesuai leading numbernya
+    /*contoh:
+        1   9   5               1   9   5
+        0   3   1   menjadi->   7   1   5
+        7   1   5               0   3   1
+    */
         if (this.tBrs>1){
             for(int i=1; i<getLastIdxBrs(); i++){
                 int brsMax=i;
@@ -109,7 +161,10 @@ public class Matrix{
         }
     }
     public Matrix gaussElim(){
-        Matrix Mgauss = new Matrix(this.tBrs,this.tKol);
+    //Metode gauss eliminataion: membuat matriks segitiga atas
+    //I.S. Matriks terdefinisi
+    //F.S. 
+    Matrix Mgauss = new Matrix(this.tBrs,this.tKol);
         Mgauss.tab = this.tab;
         Mgauss.urutMatrix();
         for(int i=1; i<getLastIdxBrs(); i++){
@@ -314,7 +369,7 @@ public class Matrix{
         return inversM;
     }
     public Matrix kaliMatrix(Matrix B){
-        Matrix hasil = new Matrix(B.tBrs, 1);
+        Matrix hasil = new Matrix(this.tBrs, 1);
         for(int i=1; i<=this.tBrs; i++){
             for(int j=1; j<=B.tKol; j++){
                 double sum=0;
@@ -327,18 +382,62 @@ public class Matrix{
         return hasil;
     }
     public void solGaussJordan(){
-    //    Matrix solution = new Matrix(this.tBrs,1)
-        int countZero = 0;
-        for(int i=1; i<=this.tBrs; i++){
-            if(!this.isZero(i)){
-    //            solution.tab[i][this.tKol]=this.tab[i][this.tKol];
-                System.out.println(String.format("X"+i+" = %.2f"+tab[i][this.tKol]));
+        boolean checkSol = true;
+        for(int k=1; k<=this.tBrs; k++){
+            boolean foundLead = false;
+            for(int l=1; l<this.tKol; l++){
+                if(this.tab[k][l]!=0){
+                    foundLead = true;
+                }
             }
-            else{
-                countZero++;
-    //            solution.tab[i][this.tKol]=-9999
-                System.out.println("X"+i+" = "+"s"+countZero);
+            if(!foundLead && this.tab[k][this.tKol]!=0){
+                checkSol = false;
+                break;
             }
+        }
+        if(checkSol){
+            int countZero = 0;
+            for(int i=1; i<=this.tBrs; i++){
+                if(isZero(i)){
+                    countZero++;
+                }
+            }
+            for(int i=1; i<=this.tBrs; i++){
+                String solution = "";
+                if(countZero==0){
+                    solution=("X"+i+" = "+String.format("%.2f",tab[i][this.tKol]));
+                }
+                else{
+                    if(!isZero(i)){
+                        solution=("X"+i+" = "+String.format("%.2f",tab[i][this.tKol]));
+                        for(int j=i+1; j<this.tKol; j++){
+                            if(tab[i][j]>0){
+                                if(tab[i][j]==1){
+                                    solution=solution+(" - "+"X"+j);
+                                }
+                                else{
+                                    solution=solution+(" -"+tab[i][j]+"X"+j);
+                                }
+                            }
+                            else if(tab[i][j]<0){
+                                if(tab[i][j]==-1){
+                                    solution=solution+(" + "+"X"+j);
+                                }
+                                else{
+                                    solution=solution+(" + "+Math.abs(tab[i][j])+"X"+j);
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        solution=("X"+i+" = X"+i);
+                    }
+                }
+                System.out.println(solution);
+            }
+        }
+        else{
+            System.out.println("Tidak ada solusi penyelesaian");
         }
     }
     public void solGauss(){
@@ -355,47 +454,143 @@ public class Matrix{
                 break;
             }
         }
-        for(int i=1; i<=this.tBrs; i++){
-            double sum=0;
+        if(checkSol){
             int countZero = 0;
-            String solution = "";
-            for(int j=i+1; j<this.tKol; j++){
-                if(!isZero(j)){
-                    sum = sum+(this.tab[i][j]*(-1)*this.tab[j][this.tKol]);
-                }
-                else{
+            for(int i=1; i<=this.tBrs; i++){
+                if(isZero(i)){
                     countZero++;
                 }
             }
-            if(countZero==0){
-               solution=String.format("X"+i+" = %.2f"+sum);
-            }
-            else{
-                for(int k=1; k<=countZero; k++){
-                    solution=solution+(String.format("X"+i+" = %.2f"+sum+"-s"+countZero));
+            for(int i=1; i<=this.tBrs; i++){
+                double sum=this.tab[i][this.tKol];
+                String solution="";
+                for(int j=i+1; j<this.tKol; j++){
+                    if(!isZero(j)){
+                        sum = sum+(this.tab[i][j]*(-1)*this.tab[j][this.tKol]);
+                    }
                 }
+                if(countZero==0){
+                    solution=("X"+i+" = "+String.format("%.2f",sum));
+                }
+                else{
+                    if(!isZero(i)){
+                        solution=("X"+i+" = "+String.format("%.2f",sum));
+                        for(int j=i+1; j<this.tKol; j++){
+                            if(tab[i][j]>0){
+                                solution=solution+(" - "+tab[i][j]+"X"+j);
+                            }
+                            else{
+                                solution=solution+(" + "+Math.abs(tab[i][j])+"X"+j);
+                            }
+                        }
+                    }
+                    else{
+                        solution=("X"+i+" = X"+i);
+                    }
+                }
+                System.out.println(solution);
             }
-            System.out.println(solution);
+        }
+        else{
+            System.out.println("Tidak ada solusi penyelesaian");
         }
     }
-    public Matrix gantiKolom(int kol){
+    public Matrix gantiKolom(Matrix B, int kol){
         Matrix cramer = new Matrix(this.tBrs, this.tKol);
-        Matrix B = new Matrix(this.tBrs, 1);
-        cramer.tab = this.tab;
+        copyMatrix(cramer);
         for(int i=1; i<=this.tBrs; i++){
-            cramer.tab[i][kol]=B.tab[i][kol];
+            cramer.tab[i][kol]=B.tab[i][1];
         }
         return cramer;
     }
-    public double getCramer(){
+    public void getCramer(Matrix B){
         double det = this.determinanC(this.tab);
-        double X=0;
         for(int i=1; i<=this.tKol; i++){
-            Matrix makeCramer = this.gantiKolom(i);
+            double X=0;
+            Matrix makeCramer = this.gantiKolom(B,i);
             double detX = makeCramer.determinanC(makeCramer.tab);
             X = detX/det;
+            System.out.println("X"+i+" = "+ String.format("%.2f",X));
         }
-        return X;
     }
-
+    public Matrix readFile(String namaFile)throws FileNotFoundException{
+        try{
+            File file = new File("C:\\Users\\ASUS\\Desktop\\tst.txt");
+            Scanner scanKol = new Scanner(file);
+            Scanner scanBrs = new Scanner(file);
+            Scanner scanElm = new Scanner(file);
+            int countKol = 0;
+            int countBrs = 0;
+            while (scanKol.hasNextLine()){
+                countKol++;
+            }
+            while (scanBrs.hasNextLine()){
+                countBrs++;
+            }
+            countKol=countKol/countBrs;
+            Matrix fileMatrix = new Matrix(countBrs, countKol);
+            int i=1;
+            int j=1;
+            while (scanElm.hasNextLine()){
+                fileMatrix.tab[i][j]=ScanElm.nextDouble();
+                j++;
+                if(j>countKol){
+                    i++;
+                    j=j-countKol;
+                }
+            }
+            return fileMatrix;
+        }catch(Exception e){
+            return null;
+        }
+    }
+/*
+    public void bacaInterpolasi(){  //membaca matriks dengan ukuran N x 2
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Banyaknya titik: ");
+        Int N = scan.nextInt();
+        Matrix MBacaInter = new Matrix(N, 2);
+        System.out.println("Elemen matrix: ");
+        for(int x=1; x<=getLastIdxBrs(); x++){
+            for(int y=1; y<=getLastIdxKol(); y++){
+                MBacaInter.tab[x][y]=scan.nextDouble();
+            }
+        }    
+    }
+    
+    public double Pangkat(double basis, int pangkat)
+    {
+        double kuadrat = basis * basis, hasil;
+        if(pangkat % 2 == 1){
+            hasil = basis;
+            for (int i = 0; i <pangkat/2 ; i++) {
+                hasil = hasil * kuadrat;
+            }
+        }else{
+            hasil = 1;
+            for (int i = 0; i <pangkat/2 ; i++) {
+                hasil = hasil * kuadrat;
+            }
+        }
+        return hasil;
+    }
+    
+    
+    public void Interpolasi(){      //membuat matriks N x N+1 berdasarkan matriks N x 2 diatas, kemudian menggunakan metode solusi gauss jordan untuk mencari nilai koefisien a
+        bacaInterpolasi();
+        Matrix MInter = new Matrix(this.tBrs, this.tKol+1);
+        for (int x = 0; x <= getLastIdxBrs(); x++){
+            MInter.tab[x][y] = this.tab[x][y];
+            MInter.tab[x][y] = Pangkat(this.tab[x][y], x);
+        }
+    } 
+    
+    public void printInterpolasi() { //mencetak polinom hasil interpolasi bentuk : a0 + 9.5a1 + 90.25a2 = 2.2513
+        for(int x=1; x <= getLastIdxBrs(); x++){
+            for(int y=1; y <= getLastIdxKol(); y++){
+                System.out.print(Pangkat(this.tab[x][y],x)+"a"+x); //
+            }
+        }    
+    }
+    */
 }
