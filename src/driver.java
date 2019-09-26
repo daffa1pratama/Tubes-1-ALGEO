@@ -23,7 +23,7 @@ public class driver {
         M.gaussJordanElim();
         M.writeFileMatrix("tst.txt");*/
 //        double[][]temp=M.tab;
-
+/*
         int N;
         System.out.println("Banyaknya titik: ");
         N = scan.nextInt();
@@ -39,22 +39,23 @@ public class driver {
         System.out.println(Minter.cetakInterpolasi());
         System.out.println();
         System.out.println(Minter.taksirInterpolasi(9.2));
-/*
+        */
+
         int a,b,c,d;
         System.out.println("Jumlah baris: ");
         a = scan.nextInt();
         System.out.println("Jumlah kolom: ");
-        b = scan.nextInt();*/
+        b = scan.nextInt();
 /*        System.out.println("Jumlah baris: ");
         c = scan.nextInt();
         System.out.println("Jumlah kolom: ");
         d = scan.nextInt();*/
-//        Matrix A = new Matrix(a,b);
+        Matrix A = new Matrix(a,b);
 //        Matrix B = new Matrix(c,d);
 //        M.makeMatrixIdentitas();
 //        M.tulisMatrix(M);
-//        A.bacaMatrix();
-//        A.tulisMatrix();
+        A.bacaMatrix();
+        A.tulisMatrix();
 //        System.out.println();
 /*        B.bacaMatrix();
         B.tulisMatrix();
@@ -83,9 +84,9 @@ public class driver {
 //        System.out.println();*/
 //        Matrix Ainvers = A.invers();
 //        Ainvers.tulisMatrix();   
-//        double[][]copy=A.tab;
-//        System.out.println("Determinan: "+ A.determinanC(copy));
-//        System.out.println("Determinan: "+ A.determinanG());
+        double[][]copy=A.tab;
+        System.out.println("Determinan: "+ A.determinanC(copy));
+        System.out.println("Determinan: "+ A.determinanG());
 //        A.gaussElim();
 //        A.tulisMatrix();
 //        System.out.println();

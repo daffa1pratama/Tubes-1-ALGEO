@@ -70,7 +70,7 @@ public class Matrix{
     */
         for(int i=1; i<=getLastIdxBrs(); i++){
             for(int j=1; j<=getLastIdxKol(); j++){
-                System.out.print(String.format("%.2f",this.tab[i][j])+"\t");
+                System.out.print(String.format("%.4f",this.tab[i][j])+"\t");
             }
             System.out.println();
         }
@@ -122,7 +122,8 @@ public class Matrix{
         }
         return found;
     }
-    public Matrix copyMatrix(Matrix B){
+    public Matrix copyMatrix(){
+        Matrix B = new Matrix(this.tBrs, this.tKol);
         for(int i=1; i<=this.tBrs; i++){
             for(int j=1; j<=this.tKol; j++){
                 B.tab[i][j]=this.tab[i][j];
@@ -363,13 +364,20 @@ public class Matrix{
                 }
             }
         }
+        inv.tulisMatrix();
+        System.out.println();
+        id.tulisMatrix();
+        System.out.println();
         return id;
     }
     public Matrix inversC(){
         Matrix inversM = new Matrix(this.tBrs, this.tKol);
-        inversM.tab=this.tab;
-        double det = 1/(determinanC(inversM.tab));
-        inversM = cofactorMatrix(inversM.tab);
+        inversM = this.copyMatrix();
+        double det = 1/(determinanC(this.tab));
+        this.tulisMatrix();
+        inversM.tulisMatrix();
+        inversM = cofactorMatrix(this.tab);
+        inversM.tulisMatrix();
         inversM.transpose();
         inversM.kaliKons(det);
         return inversM;
@@ -411,11 +419,11 @@ public class Matrix{
             for(int i=1; i<=this.tBrs; i++){
                 String solution = "";
                 if(countZero==0){
-                    solution=("X"+i+" = "+String.format("%.2f",tab[i][this.tKol]));
+                    solution=("X"+i+" = "+String.format("%.4f",tab[i][this.tKol]));
                 }
                 else{
                     if(!isZero(i)){
-                        solution=("X"+i+" = "+String.format("%.2f",tab[i][this.tKol]));
+                        solution=("X"+i+" = "+String.format("%.4f",tab[i][this.tKol]));
                         for(int j=i+1; j<this.tKol; j++){
                             if(tab[i][j]>0){
                                 if(tab[i][j]==1){
@@ -476,11 +484,11 @@ public class Matrix{
                     }
                 }
                 if(countZero==0){
-                    solution=("X"+i+" = "+String.format("%.2f",sum));
+                    solution=("X"+i+" = "+String.format("%.4f",sum));
                 }
                 else{
                     if(!isZero(i)){
-                        solution=("X"+i+" = "+String.format("%.2f",sum));
+                        solution=("X"+i+" = "+String.format("%.4f",sum));
                         for(int j=i+1; j<this.tKol; j++){
                             if(tab[i][j]>0){
                                 solution=solution+(" - "+tab[i][j]+"X"+j);
@@ -501,26 +509,39 @@ public class Matrix{
             System.out.println("Tidak ada solusi penyelesaian");
         }
     }
+    public String solInvers(int i){
+        String solution=("X"+i+" = "+ String.format("%.4f", this.tab[i][1]));
+        return solution;
+    }
     public Matrix gantiKolom(Matrix B, int kol){
         Matrix cramer = new Matrix(this.tBrs, this.tKol);
-        copyMatrix(cramer);
+        cramer = this.copyMatrix();
         for(int i=1; i<=this.tBrs; i++){
             cramer.tab[i][kol]=B.tab[i][1];
         }
         return cramer;
     }
-    public void getCramer(Matrix B){
+    public String getCramer(Matrix B, int i){
         double det = this.determinanC(this.tab);
-        for(int i=1; i<=this.tKol; i++){
-            double X=0;
-            Matrix makeCramer = this.gantiKolom(B,i);
-            double detX = makeCramer.determinanC(makeCramer.tab);
-            X = detX/det;
-            System.out.println("X"+i+" = "+ String.format("%.2f",X));
+        double X=0;
+        Matrix makeCramer = this.gantiKolom(B,i);
+        double detX = makeCramer.determinanC(makeCramer.tab);
+        X = detX/det;
+        String solution = ("X"+i+" = "+ String.format("%.4f",X));
+        return solution;
+    }
+    public void pisahAugmented(Matrix A){
+        this.tBrs=A.tBrs;
+        this.tKol=1;
+        for(int i=1; i<=this.tBrs; i++){
+            this.tab[i][1]=A.tab[i][A.tKol];
         }
     }
+    public void hapusAugmented(){
+        this.tKol--;
+    }
     public void readFile(String namaFile)throws FileNotFoundException{
-        File file = new File("..\\"+namaFile);
+        File file = new File("..\\"+namaFile+".txt");
         try{
             BufferedReader read = new BufferedReader(new FileReader(file));
             int countBrs=0;
@@ -542,7 +563,7 @@ public class Matrix{
         }
     }
     public void writeFileMatrix(String namaFile)throws FileNotFoundException{
-        File file = new File("..\\"+namaFile);
+        File file = new File("..\\"+namaFile+".txt");
         try{
             FileWriter write = new FileWriter(file,true);
             write.write(String.format("%n"));
@@ -568,7 +589,7 @@ public class Matrix{
         }
     }
     public void writeFile(String namaFile, double output){
-        File file = new File("..\\"+namaFile);
+        File file = new File("..\\"+namaFile+".txt");
         try{
             FileWriter write = new FileWriter(file,true);
             write.write(String.format("%n"));
@@ -609,7 +630,7 @@ public class Matrix{
     }
     public void matrixInterpolasi(){
         Matrix temp = new Matrix(this.tBrs, this.tKol);
-        copyMatrix(temp);
+        temp = copyMatrix();
         System.out.println(temp.tKol);
         for(int i=1; i<=this.tBrs; i++){
             for(int j=1; j<this.tKol; j++){
