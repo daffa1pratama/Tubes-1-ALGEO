@@ -2,6 +2,7 @@ package src;
 
 import java.util.Scanner;
 import java.io.File;
+import java.io.*;
 
 public class Matrix{
     public double[][]tab;
@@ -285,7 +286,12 @@ public class Matrix{
             det = copy.tab[1][1];
         }
         else{
-            det = 1;
+            if(this.tBrs%2==1){
+                det = 1;
+            }
+            else{
+                det = -1;
+            }
             //URUT MATRIX
             for(int i=1; i<copy.getLastIdxBrs(); i++){
                 int brsMax=i;
@@ -513,84 +519,141 @@ public class Matrix{
             System.out.println("X"+i+" = "+ String.format("%.2f",X));
         }
     }
-    public Matrix readFile(String namaFile)throws FileNotFoundException{
+    public void readFile(String namaFile)throws FileNotFoundException{
+        File file = new File("..\\"+namaFile);
         try{
-            File file = new File("C:\\Users\\ASUS\\Desktop\\tst.txt");
-            Scanner scanKol = new Scanner(file);
-            Scanner scanBrs = new Scanner(file);
-            Scanner scanElm = new Scanner(file);
-            int countKol = 0;
-            int countBrs = 0;
-            while (scanKol.hasNextLine()){
-                countKol++;
-            }
-            while (scanBrs.hasNextLine()){
+            BufferedReader read = new BufferedReader(new FileReader(file));
+            int countBrs=0;
+            int countKol=0;    
+            String parseBaris;
+            while((parseBaris=read.readLine())!=null){
+                String[]temp=parseBaris.split("\\s+");
+                for(int j=0; j<temp.length; j++){
+                    double elmt=Double.parseDouble(temp[j]);
+                    this.tab[countBrs+1][j+1]=elmt;
+                }
+                countKol=temp.length;
                 countBrs++;
             }
-            countKol=countKol/countBrs;
-            Matrix fileMatrix = new Matrix(countBrs, countKol);
-            int i=1;
-            int j=1;
-            while (scanElm.hasNextLine()){
-                fileMatrix.tab[i][j]=ScanElm.nextDouble();
-                j++;
-                if(j>countKol){
-                    i++;
-                    j=j-countKol;
-                }
-            }
-            return fileMatrix;
+            this.tBrs=countBrs;
+            this.tKol=countKol;
         }catch(Exception e){
-            return null;
+            System.out.println(e);
         }
     }
-/*
-    public void bacaInterpolasi(){  //membaca matriks dengan ukuran N x 2
+    public void writeFileMatrix(String namaFile)throws FileNotFoundException{
+        File file = new File("..\\"+namaFile);
+        try{
+            FileWriter write = new FileWriter(file,true);
+            write.write(String.format("%n"));
+            write.write(String.format("%n"));
+            int i=1;
+            while(i<=this.tBrs){
+                int j=1;
+                while(j<=this.tKol){
+                    write.write(Double.toString(this.tab[i][j]));
+                    if(j!=this.tKol){
+                        write.write(" ");
+                    }
+                    j++;
+                }
+                if(i!=this.tBrs){
+                    write.write(String.format("%n"));
+                }
+                i++;
+            }
+            write.close();
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    public void writeFile(String namaFile, double output){
+        File file = new File("..\\"+namaFile);
+        try{
+            FileWriter write = new FileWriter(file,true);
+            write.write(String.format("%n"));
+            write.write(String.format("%n"));
+            int i=1;
+            write.write(Double.toString(output));
+            write.close();
+        }catch(Exception e){
+            System.out.println(e);
+        }  
+    }
+
+    public void bacaInterpolasi(){
         Scanner scan = new Scanner(System.in);
-        System.out.println("Banyaknya titik: ");
-        Int N = scan.nextInt();
-        Matrix MBacaInter = new Matrix(N, 2);
-        System.out.println("Elemen matrix: ");
+        System.out.println("Input (x,y) : ");
         for(int x=1; x<=getLastIdxBrs(); x++){
             for(int y=1; y<=getLastIdxKol(); y++){
-                MBacaInter.tab[x][y]=scan.nextDouble();
+                this.tab[x][y]=scan.nextDouble();
             }
         }    
     }
-    
-    public double Pangkat(double basis, int pangkat)
-    {
-        double kuadrat = basis * basis, hasil;
+    public double pangkat(double basis, int pangkat){
+        double hasil;
+        double kuadrat = basis * basis;
         if(pangkat % 2 == 1){
             hasil = basis;
-            for (int i = 0; i <pangkat/2 ; i++) {
+            for(int i=0; i<pangkat/2; i++){
                 hasil = hasil * kuadrat;
             }
-        }else{
-            hasil = 1;
-            for (int i = 0; i <pangkat/2 ; i++) {
+        }
+        else{
+            hasil=1;
+            for(int i=0; i<pangkat/2; i++){
                 hasil = hasil * kuadrat;
             }
         }
         return hasil;
     }
-    
-    
-    public void Interpolasi(){      //membuat matriks N x N+1 berdasarkan matriks N x 2 diatas, kemudian menggunakan metode solusi gauss jordan untuk mencari nilai koefisien a
-        bacaInterpolasi();
-        Matrix MInter = new Matrix(this.tBrs, this.tKol+1);
-        for (int x = 0; x <= getLastIdxBrs(); x++){
-            MInter.tab[x][y] = this.tab[x][y];
-            MInter.tab[x][y] = Pangkat(this.tab[x][y], x);
-        }
-    } 
-    
-    public void printInterpolasi() { //mencetak polinom hasil interpolasi bentuk : a0 + 9.5a1 + 90.25a2 = 2.2513
-        for(int x=1; x <= getLastIdxBrs(); x++){
-            for(int y=1; y <= getLastIdxKol(); y++){
-                System.out.print(Pangkat(this.tab[x][y],x)+"a"+x); //
+    public void matrixInterpolasi(){
+        Matrix temp = new Matrix(this.tBrs, this.tKol);
+        copyMatrix(temp);
+        System.out.println(temp.tKol);
+        for(int i=1; i<=this.tBrs; i++){
+            for(int j=1; j<this.tKol; j++){
+                this.tab[i][j] = pangkat(temp.tab[i][1], j-1);
             }
-        }    
+        }
+        for(int i=1; i<=this.tBrs; i++){
+            this.tab[i][this.tKol]=temp.tab[i][2];
+        }
     }
-    */
+    public String cetakInterpolasi(){
+        String str="f(x) = ";
+        String sign = "";
+        double temp;
+        for(int i=1; i<=this.tBrs; i++){
+            if(this.tab[i][this.tKol]>=0){
+                temp=this.tab[i][this.tKol];
+                sign=" + ";
+            }
+            else{
+                sign=" - ";
+                temp = this.tab[i][this.tKol];
+                this.tab[i][this.tKol]=Math.abs(temp);
+            }
+            if(i==1){
+                str=str+(String.format("%.4f",this.tab[i][this.tKol]));
+            }
+            else if(i==2){
+                str=str+(sign+String.format("%.4f",this.tab[i][this.tKol])+" x");
+            }
+            else{
+                str=str+(sign+String.format("%.4f",this.tab[i][this.tKol])+" x^"+(i-1));
+            }
+            this.tab[i][this.tKol]=temp;
+        }
+        return str;
+    }
+    public double taksirInterpolasi(double x){
+    //    double hasil=this.tab[1][this.tKol];
+        double hasil = 0;
+        for(int i=1; i<=this.tBrs; i++){
+            hasil=hasil+(this.tab[i][this.tKol]*pangkat(x, i-1));
+        }
+        return hasil;
+    }
+    
 }
