@@ -1,4 +1,4 @@
-package src;
+    package src;
 import src.Matrix;
 import java.util.Scanner;
 
